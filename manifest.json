@@ -5,8 +5,10 @@
   "content_scripts": [
     {
       "matches": ["https://www.amazon.co.uk/gp/video/*"],
-      "css": ["hide-bottom-bar.css"]
+      "css": ["hide-bottom-bar.css"],
+      "js": ["retainTime.js"]
     }
   ],
+  "permissions": ["storage"],
   "manifest_version": 3
 }
