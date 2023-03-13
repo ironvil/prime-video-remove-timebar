@@ -1,0 +1,12 @@
+{
+  "name": "Remove timebar prime video",
+  "description": "Remove time bar to prevent spoilers watching sport",
+  "version": "1.0.0",
+  "content_scripts": [
+    {
+      "matches": ["https://www.amazon.co.uk/gp/video/*"],
+      "css": ["hide-bottom-bar.css"]
+    }
+  ],
+  "manifest_version": 3
+}
