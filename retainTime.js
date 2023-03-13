@@ -40,7 +40,7 @@ function updateTimesOnInterval(times, title){
     const updatedTimes = times ? times : {}
     setInterval(()=> {
         updatedTimes[title] = getCurrentTime();
-        console.log("setting times", JSON.stringify(updatedTimes))
+        console.log("setting times", updatedTimes[title])
         chrome.storage.local.set({"times": updatedTimes})
     }, 5000)
 }
