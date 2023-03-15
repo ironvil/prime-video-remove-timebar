@@ -2,7 +2,7 @@
 const interval = setInterval(()=> {
     let video = getVideo();
     if(video !== undefined && !video.paused){
-        initiate();
+        setTimeout(initiate, 500);
         clearInterval(interval)
     }
 }, 1000)
