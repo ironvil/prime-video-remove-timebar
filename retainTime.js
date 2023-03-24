@@ -1,20 +1,23 @@
+function initiateOnVideoStart() {
+    const interval = setInterval(() => {
+        let video = getVideo();
+        if (video !== undefined && !video.paused) {
+            setTimeout(initiate, 500);
+            clearInterval(interval)
+        }
+    }, 1000)
+}
 
-const interval = setInterval(()=> {
-    let video = getVideo();
-    if(video !== undefined && !video.paused){
-        setTimeout(initiate, 500);
-        clearInterval(interval)
-    }
-}, 1000)
+initiateOnVideoStart();
 
 
 function initiate() {
     const title = document.querySelector('[data-automation-id="title"]').textContent;
-    console.log(title)
+    log(title)
     chrome.storage.local.get(() => {
         chrome.storage.local.get(["times"]).then((result) => {
             const times = result.times || {};
-            console.log("initial times", times)
+            log("initial times", times)
             const currentTime = times[title];
             if (currentTime) {
                 setCurrentTime(currentTime)
@@ -29,18 +32,36 @@ function getVideo(){
 }
 
 function getCurrentTime(){
-    return document.querySelectorAll("video")[0].currentTime
+    return getVideo().currentTime
 }
 
 function setCurrentTime(time){
-    document.querySelectorAll("video")[0].currentTime = time
+    getVideo().currentTime = time
+}
+
+function getIsOnPlayScreen(){
+    return getComputedStyle(document.querySelector('[id=dv-web-player]')).display !== "none"
 }
 
 function updateTimesOnInterval(times, title){
     const updatedTimes = times ? times : {}
-    setInterval(()=> {
-        updatedTimes[title] = getCurrentTime();
-        console.log("setting times", updatedTimes[title])
-        chrome.storage.local.set({"times": updatedTimes})
-    }, 5000)
+    let lastUpdateTime = getCurrentTime();
+    const interval = setInterval(()=> {
+        if(getIsOnPlayScreen()){
+            updatedTimes[title] = getCurrentTime();
+            if(Math.abs(getCurrentTime() - lastUpdateTime ) > 5) {
+                log("setting times", updatedTimes[title])
+                lastUpdateTime = getCurrentTime();
+            }
+            chrome.storage.local.set({"times": updatedTimes})
+        } else {
+            log("video closed, returning to initial state")
+            clearInterval(interval)
+            initiateOnVideoStart()
+        }
+    }, 500)
+}
+
+function log(...messages){
+    console.log("[remove-timebar]:", ...messages)
 }
