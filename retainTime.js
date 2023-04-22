@@ -11,6 +11,12 @@ function initiateOnVideoStart() {
 initiateOnVideoStart();
 
 
+document.querySelectorAll('[data-testid=standard-carousel]').forEach((carousel)=> {
+    if(carousel.querySelector("[data-testid=carousel-title]").textContent.toLowerCase().includes("upcoming")){
+        carousel.style.display = "none"
+    }
+})
+
 function initiate() {
     const title = document.querySelector('[data-automation-id="title"]').textContent;
     log(title)
