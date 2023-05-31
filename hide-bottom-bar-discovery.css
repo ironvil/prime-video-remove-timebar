@@ -1,0 +1,3 @@
+:has(>[aria-label='Seek Timeline Bar']) {
+    display: none !important;
+}

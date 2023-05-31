@@ -7,6 +7,10 @@
       "matches": ["https://www.amazon.co.uk/gp/video/*"],
       "css": ["hide-bottom-bar.css"],
       "js": ["retainTime.js"]
+    },
+    {
+      "matches": ["https://www.discoveryplus.com/gb/video/*"],
+      "css": ["hide-bottom-bar-discovery.css"]
     }
   ],
   "permissions": ["storage"],
